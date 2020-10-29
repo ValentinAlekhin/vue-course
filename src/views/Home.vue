@@ -9,7 +9,7 @@
               :key="ad.id"
               :src="ad.imgSrc"
             >
-              <div class="car-link">
+              <div class="car-link center">
                 <v-btn :to="'/ad/' + ad.id">{{ ad.title }}</v-btn>
               </div>
             </v-carousel-item>
@@ -52,7 +52,7 @@
   <div v-else>
     <v-container>
       <v-layout row>
-        <v-flex xs class="center">
+        <v-flex xs class="center fixed">
           <v-progress-circular
             :size="100"
             :width="5"
@@ -84,18 +84,18 @@ export default {
 <style scoped>
 .car-link {
   position: absolute;
-  left: 50%;
-  top: 50%;
   background: rgba(0, 0, 0, 0.3);
-  transform: translate(-50%, -50%);
   padding: 20px 40px;
   border-radius: 5px;
 }
 
 .center {
-  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.fixed {
+  position: fixed;
 }
 </style>

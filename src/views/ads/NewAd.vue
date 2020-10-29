@@ -28,17 +28,28 @@
           </v-card-text>
           <v-layout row>
             <v-flex xs12>
-              <v-btn color="blue-grey" class="ma-2 white--text mb-3">
+              <v-btn
+                color="blue-grey"
+                class="ma-2 white--text mb-3"
+                @click="triggerUpload"
+              >
                 Upload
                 <v-icon right dark>
                   mdi-cloud-upload
                 </v-icon>
               </v-btn>
+              <input
+                ref="fileInput"
+                type="file"
+                style="display: none"
+                accept="image/*"
+                @change="onFileChange"
+              />
             </v-flex>
           </v-layout>
           <v-layout row>
             <v-flex>
-              <v-img src="" alt="" height="150" />
+              <v-img :src="imageSrc" alt="" height="150" v-if="imageSrc" />
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -51,7 +62,7 @@
               <v-btn
                 class="succsess"
                 @click="createAdd"
-                :disabled="$v.$invalid || loading"
+                :disabled="$v.$invalid || !image || loading"
                 :loading="loading"
               >
                 Create add
@@ -72,6 +83,8 @@ export default {
     title: '',
     description: '',
     promo: false,
+    image: null,
+    imageSrc: '',
   }),
 
   validations: {
@@ -89,13 +102,24 @@ export default {
         title: this.title,
         description: this.description,
         promo: this.promo,
-        imgSrc: 'https://miro.medium.com/max/2800/1*ZdVOEPdmaMy0NboVNfM20g.png',
+        image: this.image,
       }
 
       this.$store
         .dispatch('createAd', ad)
         .then(() => this.$router.push('/list'))
         .catch(() => {})
+    },
+    triggerUpload() {
+      this.$refs.fileInput.click()
+    },
+    onFileChange(event) {
+      const file = event.target.files[0]
+
+      const reader = new FileReader()
+      reader.onload = e => (this.imageSrc = reader.result)
+      reader.readAsDataURL(file)
+      this.image = file
     },
   },
 
