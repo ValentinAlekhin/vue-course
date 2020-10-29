@@ -84,9 +84,10 @@ export default {
         title: this.title,
         description: this.description,
         promo: this.promo,
+        imgSrc: 'https://miro.medium.com/max/2800/1*ZdVOEPdmaMy0NboVNfM20g.png',
       }
 
-      console.log(ad)
+      this.$store.dispatch('createAd', ad)
     },
   },
 

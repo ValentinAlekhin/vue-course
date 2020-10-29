@@ -14,7 +14,7 @@
                 <p>{{ ad.description }}</p>
               </v-card-text>
               <v-card-actions>
-                <v-btn class="info" :to="'/ad/' + ad.url">Open</v-btn>
+                <v-btn class="info" :to="'/ad/' + ad.id">Open</v-btn>
               </v-card-actions>
             </v-flex>
           </v-layout>
