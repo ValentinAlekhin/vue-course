@@ -36,7 +36,11 @@
 
               <v-card-actions>
                 <v-layout justify-center>
-                  <v-btn @click="submit" :disabled="$v.$invalid">
+                  <v-btn
+                    @click="submit"
+                    :disabled="$v.$invalid || loading"
+                    :loading="loading"
+                  >
                     Create Account
                   </v-btn>
                 </v-layout>
@@ -69,6 +73,9 @@ export default {
   },
 
   computed: {
+    loading() {
+      return this.$store.getters.loading
+    },
     emailErrors() {
       const errors = []
       if (!this.$v.email.$dirty) return errors
@@ -99,7 +106,10 @@ export default {
         password: this.password,
       }
 
-      console.log(user)
+      this.$store
+        .dispatch('registerUser', user)
+        .then(() => this.$router.push('/'))
+        .cath()
     },
   },
 }

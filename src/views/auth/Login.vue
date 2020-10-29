@@ -26,7 +26,11 @@
 
               <v-card-actions>
                 <v-layout justify-center>
-                  <v-btn @click="submit" :disabled="$v.$invalid">
+                  <v-btn
+                    @click="submit"
+                    :disabled="$v.$invalid || loading"
+                    :loading="loading"
+                  >
                     Login
                   </v-btn>
                 </v-layout>
@@ -40,7 +44,6 @@
 </template>
 
 <script>
-import { validationMixin } from 'vuelidate'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default {
@@ -49,14 +52,15 @@ export default {
     password: '',
   }),
 
-  mixins: [validationMixin],
-
   validations: {
     email: { required, email },
     password: { required, minLen: minLength(6) },
   },
 
   computed: {
+    loading() {
+      return this.$store.getters.loading
+    },
     emailErrors() {
       const errors = []
       if (!this.$v.email.$dirty) return errors
@@ -80,7 +84,10 @@ export default {
         password: this.password,
       }
 
-      console.log(user)
+      this.$store
+        .dispatch('loginUser', user)
+        .then(() => this.$router.push('/'))
+        .catch(e => console.log(e))
     },
   },
 }
