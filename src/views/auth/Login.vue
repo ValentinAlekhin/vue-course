@@ -87,7 +87,7 @@ export default {
       this.$store
         .dispatch('loginUser', user)
         .then(() => this.$router.push('/'))
-        .catch(e => console.log(e))
+        .catch(() => {})
     },
   },
 }

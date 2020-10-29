@@ -31,6 +31,22 @@
     <v-main>
       <router-view />
     </v-main>
+    <template v-if="error">
+      <v-snackbar
+        absolute
+        bottom
+        right
+        :multi-line="true"
+        :timeout="10000"
+        :value="true"
+        @input="closeError"
+      >
+        {{ error }}
+        <v-btn color="indigo" text @click="closeError">
+          Close
+        </v-btn>
+      </v-snackbar>
+    </template>
   </v-app>
 </template>
 
@@ -58,6 +74,18 @@ export default {
         },
       ],
     }
+  },
+
+  computed: {
+    error() {
+      return this.$store.getters.error
+    },
+  },
+
+  methods: {
+    closeError() {
+      this.$store.dispatch('clearError')
+    },
   },
 }
 </script>

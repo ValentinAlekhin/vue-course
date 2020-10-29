@@ -25,9 +25,10 @@ export default {
           .createUserWithEmailAndPassword(email, password)
         commit('setUser', new User(uid))
         commit('setLoading', false)
-      } catch (e) {
+      } catch ({ message }) {
         commit('setLoading', false)
-        commit('setError', e)
+        commit('setError', message)
+        throw new Error(message)
       }
     },
     async loginUser({ commit }, { email, password }) {
@@ -39,9 +40,10 @@ export default {
           .signInWithEmailAndPassword(email, password)
         commit('setUser', new User(uid))
         commit('setLoading', false)
-      } catch (e) {
+      } catch ({ message }) {
         commit('setLoading', false)
-        commit('setError', e)
+        commit('setError', message)
+        throw new Error(message)
       }
     },
   },
