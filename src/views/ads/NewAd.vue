@@ -48,9 +48,14 @@
           </v-layout>
           <v-layout row>
             <v-flex>
-              <v-btn class="succsess" @click="createAdd" :disabled="$v.$invalid"
-                >Create add</v-btn
+              <v-btn
+                class="succsess"
+                @click="createAdd"
+                :disabled="$v.$invalid || loading"
+                :loading="loading"
               >
+                Create add
+              </v-btn>
             </v-flex>
           </v-layout>
         </form>
@@ -87,11 +92,17 @@ export default {
         imgSrc: 'https://miro.medium.com/max/2800/1*ZdVOEPdmaMy0NboVNfM20g.png',
       }
 
-      this.$store.dispatch('createAd', ad)
+      this.$store
+        .dispatch('createAd', ad)
+        .then(() => this.$router.push('/list'))
+        .catch(() => {})
     },
   },
 
   computed: {
+    loading() {
+      return this.$store.getters.loading
+    },
     titleErrors() {
       const errors = []
       if (!this.$v.title.$dirty) return errors
