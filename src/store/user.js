@@ -46,10 +46,20 @@ export default {
         throw new Error(message)
       }
     },
+    autoLoginUser({ commit }, { uid }) {
+      commit('setUser', new User(uid))
+    },
+    logoutUser({ commit }) {
+      firebase.auth().signOut()
+      commit('setUser', null)
+    },
   },
   getters: {
     user(state) {
       return state.user
+    },
+    isUserLoggedIn(state) {
+      return !!state.user
     },
   },
 }
