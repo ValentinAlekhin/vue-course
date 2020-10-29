@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!loading">
     <v-container fluid>
       <v-layout row>
         <v-flex xs12>
@@ -48,6 +48,21 @@
       </v-layout>
     </v-container>
   </div>
+
+  <div v-else>
+    <v-container>
+      <v-layout row>
+        <v-flex xs class="center">
+          <v-progress-circular
+            :size="100"
+            :width="5"
+            color="#BDBDBD"
+            indeterminate
+          />
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -58,6 +73,9 @@ export default {
     },
     promoAds() {
       return this.$store.getters.promoAds
+    },
+    loading() {
+      return this.$store.getters.loading
     },
   },
 }
@@ -72,5 +90,12 @@ export default {
   transform: translate(-50%, -50%);
   padding: 20px 40px;
   border-radius: 5px;
+}
+
+.center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

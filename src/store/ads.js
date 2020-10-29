@@ -21,33 +21,14 @@ class Ad {
 
 export default {
   state: {
-    ads: [
-      {
-        title: 'First ad',
-        description: 'Hello',
-        promo: false,
-        imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-        id: '1212',
-      },
-      {
-        title: 'SEcond ad',
-        description: 'Hello',
-        promo: true,
-        imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-        id: '121sdf2',
-      },
-      {
-        title: '3 ad',
-        description: 'Hello',
-        promo: true,
-        imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-        id: '1212dfg',
-      },
-    ],
+    ads: [],
   },
   mutations: {
     createAd(state, payload) {
       state.ads.push(payload)
+    },
+    loadAds(state, payload) {
+      state.ads = payload
     },
   },
   actions: {
@@ -56,7 +37,7 @@ export default {
       commit('setLoading', true)
 
       try {
-        const newAd = new Ad(title, description, getters.user.id, imgSrc, promo)
+        const newAd = new Ad(title, description, getters.user.id, promo, imgSrc)
         const { key } = await firebase
           .database()
           .ref('ads')
@@ -66,6 +47,28 @@ export default {
           ...newAd,
           id: key,
         })
+        commit('setLoading', false)
+      } catch ({ message }) {
+        commit('setLoading', false)
+        commit('setError', message)
+        throw new Error(message)
+      }
+    },
+    async fetchAds({ commit }) {
+      commit('clearError')
+      commit('setLoading', true)
+
+      try {
+        const fbVal = await firebase
+          .database()
+          .ref('ads')
+          .once('value')
+        const ads = Object.entries(fbVal.val()).map(([key, value]) => ({
+          ...value,
+          key,
+        }))
+
+        commit('loadAds', ads)
         commit('setLoading', false)
       } catch ({ message }) {
         commit('setLoading', false)
