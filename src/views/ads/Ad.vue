@@ -9,7 +9,7 @@
             <p>{{ ad.description }}</p>
           </v-card-text>
           <v-card-actions>
-            <EditAdModal :ad="ad" />
+            <EditAdModal :ad="ad" v-if="idOwner" />
             <v-btn class="success">Buy</v-btn>
           </v-card-actions>
         </v-card>
@@ -32,6 +32,9 @@ export default {
     },
     loading() {
       return this.$store.getters.loading
+    },
+    isOwner() {
+      return this.ad.ownerId === this.$store.getters.userId
     },
   },
 }
