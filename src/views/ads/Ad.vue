@@ -9,7 +9,7 @@
             <p>{{ ad.description }}</p>
           </v-card-text>
           <v-card-actions>
-            <v-btn>Edit</v-btn>
+            <EditAdModal :ad="ad" />
             <v-btn class="success">Buy</v-btn>
           </v-card-actions>
         </v-card>
@@ -19,11 +19,19 @@
 </template>
 
 <script>
+import EditAdModal from './EditAdModal'
+
 export default {
+  components: {
+    EditAdModal,
+  },
   props: ['id'],
   computed: {
     ad() {
       return this.$store.getters.adById(this.id)
+    },
+    loading() {
+      return this.$store.getters.loading
     },
   },
 }

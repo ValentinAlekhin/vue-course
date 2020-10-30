@@ -79,7 +79,7 @@ export default {
           .once('value')
         const ads = Object.entries(fbVal.val()).map(([key, value]) => ({
           ...value,
-          key,
+          id: key,
         }))
 
         commit('loadAds', ads)
