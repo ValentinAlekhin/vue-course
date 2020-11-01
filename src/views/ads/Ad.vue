@@ -9,8 +9,8 @@
             <p>{{ ad.description }}</p>
           </v-card-text>
           <v-card-actions>
-            <EditAdModal :ad="ad" v-if="idOwner" />
-            <v-btn class="success">Buy</v-btn>
+            <EditAdModal :ad="ad" v-if="isOwner" />
+            <BuyModal :ad="ad" />
           </v-card-actions>
         </v-card>
       </v-flex>

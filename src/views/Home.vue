@@ -39,9 +39,7 @@
                 Open
               </v-btn>
 
-              <v-btn text>
-                Buy
-              </v-btn>
+              <BuyModal :ad="ad" />
             </v-card-actions>
           </v-card>
         </v-flex>

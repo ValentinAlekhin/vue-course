@@ -6,9 +6,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import BuyModal from './views/shared/BuyModal.vue'
 
 Vue.config.productionTip = false
 Vue.use(Vuelidate)
+Vue.component('BuyModal', BuyModal)
 
 firebase.initializeApp({
   apiKey: 'AIzaSyBq1ZTo2hn5l5G62k_wNvoSsYNhWDqiiAk',
